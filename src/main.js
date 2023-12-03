@@ -10,7 +10,7 @@ import DescricaoProduto from './components/DescricaoProduto.vue'
 const routes = [
   { path: "/", component: PaginaPrincipal },
   { path: "/carrinho", component: Carrinho },
-  { path: "/descricao", component: DescricaoProduto}
+  { path: "/descricao/:id", component: DescricaoProduto, props:true}
 ];
 
 const router = createRouter({

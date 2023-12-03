@@ -1,38 +1,8 @@
 <script setup>
 import { ref, computed } from 'vue'
 import CardProduto from '../components/CardProduto.vue'
-const produtos = ref([
-    {
-        nome: "gordo 1",
-        descricao: "gordo 1a",
-        preco: 1000,
-        url: "https://source.unsplash.com/random/200x200?sig=1"
-    },
-    {
-        nome: "gordo 2",
-        descricao: "gordo 1a",
-        preco: 1000,
-        url: "https://source.unsplash.com/random/200x200?sig=1"
-    },
-    {
-        nome: "gordo 3",
-        descricao: "gordo 1a",
-        preco: 1000,
-        url: "https://source.unsplash.com/random/200x200?sig=1"
-    },
-    {
-        nome: "gordo 4",
-        descricao: "gordo 1a",
-        preco: 1000,
-        url: "https://source.unsplash.com/random/200x200?sig=1"
-    },
-    {
-        nome: "gordo 5",
-        descricao: "gordo 1a",
-        preco: 1000,
-        url: "https://source.unsplash.com/random/200x200?sig=1"
-    },
-])
+import ApiGerenciador from '../ApiGerenciador';
+const produtos = ref([])
 
 const filtro = ref('');
 const produtosFiltrados = computed(() => {
@@ -44,6 +14,15 @@ const produtosFiltrados = computed(() => {
         });
     }
 });
+
+function buscarTodos() {
+    ApiGerenciador.request("http://localhost:8080/produto").then((data) => {
+        produtos.value = data;
+        console.log(produtos.value);
+    })
+}
+
+buscarTodos()
 </script>
 
 <template>
@@ -95,7 +74,7 @@ const produtosFiltrados = computed(() => {
 
         <div class="row">
             <div class="col-sm-12 col-md-3 my-2" v-for="produto in produtosFiltrados" :key="produto.nome">
-               <CardProduto :nome="produto.nome" :descricao="produto.descricao" :preco="produto.preco" :url="produto.url"/>
+               <CardProduto :produto="produto"/>
             </div>
         </div>
     </div>
